@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Briefing de Tráfego Pago — VDB Tráfego</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340..600;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FBF7F6;
+    --bg-raised:#F4ECEA;
+    --ink:#241B22;
+    --ink-soft:#5B4B52;
+    --muted:#93838A;
+    --line:#E7DBDA;
+    --wine:#9C2B4E;
+    --wine-dark:#7A2140;
+    --wine-soft:#F4E1E6;
+    --teal:#1E6F63;
+    --teal-soft:#E1EFEA;
+    --white:#FFFFFF;
+    --shadow: 0 1px 2px rgba(36,27,34,0.06);
+    --radius-sm: 8px;
+    --radius-md: 12px;
+  }
+
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{ background:var(--wine-soft); color:var(--wine-dark); }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.01ms !important; transition-duration:0.01ms !important; }
+  }
+
+  a{ color:var(--wine); }
+
+  .wrap{ max-width:680px; margin:0 auto; padding:0 24px; }
+
+  /* ---------- Hero ---------- */
+  .hero{ padding:52px 0 28px; }
+  .hero .mark{
+    font-size:0.8rem;
+    letter-spacing:0.02em;
+    color:var(--wine);
+    font-weight:600;
+    margin:0 0 14px;
+  }
+  .hero h1{
+    font-family:'Fraunces',serif;
+    font-weight:560;
+    font-size:clamp(2rem, 6vw, 2.9rem);
+    line-height:1.08;
+    margin:0 0 16px;
+    letter-spacing:-0.01em;
+  }
+  .hero p{
+    font-size:1rem;
+    color:var(--ink-soft);
+    max-width:52ch;
+    margin:0;
+  }
+  .hero-rule{
+    height:3px;
+    width:64px;
+    background:var(--wine);
+    margin-top:26px;
+    border-radius:2px;
+  }
+
+  /* ---------- Sticky progress / section nav ---------- */
+  .stickytop{
+    position:sticky; top:0; z-index:20;
+    background:rgba(251,247,246,0.92);
+    backdrop-filter:saturate(140%) blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .progress-row{
+    max-width:680px; margin:0 auto;
+    padding:10px 24px 8px;
+    display:flex; align-items:center; gap:12px;
+  }
+  .progress-track{
+    flex:1; height:5px; background:var(--bg-raised);
+    border-radius:99px; overflow:hidden;
+  }
+  .progress-fill{
+    height:100%; width:0%; background:var(--wine);
+    border-radius:99px;
+    transition:width 0.35s ease;
+  }
+  .progress-label{
+    font-size:0.78rem; color:var(--ink-soft); white-space:nowrap; font-variant-numeric:tabular-nums;
+  }
+  .sectionnav{
+    max-width:680px; margin:0 auto;
+    display:flex; gap:6px; overflow-x:auto;
+    padding:0 24px 10px;
+    scrollbar-width:none;
+  }
+  .sectionnav::-webkit-scrollbar{ display:none; }
+  .sectionnav a{
+    flex:0 0 auto;
+    font-size:0.76rem;
+    color:var(--ink-soft);
+    text-decoration:none;
+    padding:5px 11px;
+    border-radius:99px;
+    border:1px solid var(--line);
+    white-space:nowrap;
+  }
+  .sectionnav a.done{ color:var(--teal); border-color:var(--teal-soft); background:var(--teal-soft); }
+
+  /* ---------- Sections ---------- */
+  main{ padding-bottom:110px; }
+  section.qsec{
+    padding:40px 0 8px;
+    border-top:1px solid var(--line);
+  }
+  section.qsec:first-of-type{ border-top:none; }
+  .qsec-head{ margin-bottom:26px; }
+  .qsec-num{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-weight:500;
+    color:var(--wine);
+    font-size:0.95rem;
+  }
+  .qsec-head h2{
+    font-family:'Fraunces',serif;
+    font-weight:560;
+    font-size:1.5rem;
+    margin:4px 0 0;
+    letter-spacing:-0.01em;
+  }
+
+  /* ---------- Question blocks ---------- */
+  .q{ margin-bottom:30px; }
+  .q-label{
+    display:flex; gap:10px; align-items:baseline;
+    font-size:0.98rem; font-weight:500; color:var(--ink);
+    margin-bottom:12px;
+  }
+  .q-label .qn{
+    font-size:0.8rem; color:var(--muted); font-weight:600;
+    min-width:1.4em;
+  }
+  .q-note{
+    font-size:0.82rem; color:var(--muted);
+    margin:8px 0 0 2.2em; max-width:50ch;
+  }
+  .q-example{
+    font-size:0.82rem; color:var(--muted); font-style:italic;
+    margin:6px 0 0 2.2em;
+  }
+  .q-body{ margin-left:2.2em; }
+  .q-child{ margin-top:16px; }
+
+  /* text / number inputs (underline style) */
+  .field-text{
+    display:flex; align-items:flex-end; gap:8px;
+    border-bottom:1.5px solid var(--line);
+    padding-bottom:8px;
+    max-width:440px;
+    transition:border-color 0.15s ease;
+  }
+  .field-text:focus-within{ border-color:var(--wine); }
+  .field-affix{ font-size:0.9rem; color:var(--muted); }
+  .field-text input{
+    border:none; outline:none; background:transparent;
+    font-family:'Inter',sans-serif; font-size:0.96rem; color:var(--ink);
+    width:100%; padding:2px 0;
+  }
+  .field-text input::placeholder{ color:var(--muted); }
+  .field-suffix{ font-size:0.85rem; color:var(--muted); white-space:nowrap; }
+
+  textarea{
+    width:100%; min-height:88px; resize:vertical;
+    border:1px solid var(--line); border-radius:var(--radius-md);
+    background:var(--white);
+    font-family:'Inter',sans-serif; font-size:0.96rem; color:var(--ink);
+    padding:13px 14px; outline:none;
+    transition:border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  textarea:focus{ border-color:var(--wine); box-shadow:0 0 0 3px var(--wine-soft); }
+  textarea::placeholder{ color:var(--muted); }
+
+  /* choice chips */
+  .chip-row{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+  .chip{
+    position:relative;
+    display:inline-flex; align-items:center;
+    border:1px solid var(--line);
+    border-radius:99px;
+    padding:8px 15px;
+    font-size:0.9rem; color:var(--ink-soft);
+    cursor:pointer; background:var(--white);
+    transition:background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+    user-select:none;
+  }
+  .chip input{
+    position:absolute; opacity:0; width:1px; height:1px; pointer-events:none;
+  }
+  .chip:hover{ border-color:var(--wine); }
+  .chip.selected, .chip:has(input:checked){
+    background:var(--wine); border-color:var(--wine); color:var(--white);
+  }
+  .chip:focus-within{ outline:2px solid var(--wine-dark); outline-offset:2px; }
+
+  .other-input{
+    display:none;
+    border:none; border-bottom:1.5px solid var(--line);
+    background:transparent; outline:none;
+    font-family:'Inter',sans-serif; font-size:0.9rem; color:var(--ink);
+    padding:6px 2px; min-width:160px;
+  }
+  .other-input.show{ display:inline-block; }
+  .other-input:focus{ border-color:var(--wine); }
+
+  .q-child[hidden]{ display:none !important; }
+
+  /* ---------- Bottom action bar ---------- */
+  .actionbar{
+    position:fixed; left:0; right:0; bottom:0; z-index:30;
+    background:var(--white);
+    border-top:1px solid var(--line);
+    box-shadow:0 -4px 16px rgba(36,27,34,0.06);
+  }
+  .actionbar-inner{
+    max-width:680px; margin:0 auto;
+    padding:13px 24px;
+    display:flex; align-items:center; gap:10px; justify-content:space-between;
+  }
+  .actionbar-text{ font-size:0.76rem; color:var(--muted); display:none; }
+  .btn{
+    font-family:'Inter',sans-serif; font-size:0.88rem; font-weight:600;
+    border-radius:99px; padding:11px 18px; cursor:pointer;
+    border:1px solid transparent;
+    transition:transform 0.08s ease, background 0.12s ease;
+    white-space:nowrap;
+  }
+  .btn:active{ transform:scale(0.97); }
+  .btn-primary{ background:var(--wine); color:var(--white); }
+  .btn-primary:hover{ background:var(--wine-dark); }
+  .btn-ghost{ background:transparent; color:var(--ink-soft); border-color:var(--line); }
+  .btn-ghost:hover{ border-color:var(--wine); color:var(--wine); }
+  .actionbar-btns{ display:flex; gap:8px; }
+
+  .toast{
+    position:fixed; left:50%; bottom:86px; transform:translateX(-50%) translateY(8px);
+    background:var(--ink); color:var(--white);
+    font-size:0.85rem; padding:9px 16px; border-radius:99px;
+    opacity:0; pointer-events:none; transition:opacity 0.2s ease, transform 0.2s ease;
+    z-index:40;
+  }
+  .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+
+  @media (min-width:560px){
+    .actionbar-text{ display:block; }
+  }
+  @media (max-width:420px){
+    .wrap{ padding:0 18px; }
+    .progress-row, .sectionnav{ padding-left:18px; padding-right:18px; }
+    .q-body, .q-note, .q-example{ margin-left:0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <p class="mark">VDB Tráfego · Captação de clientes para serviços de Google Meu Negócio</p>
+    <h1>Briefing de tráfego pago</h1>
+    <p>Este formulário reúne o que preciso entender sobre seu serviço, seu público e sua oferta para montar uma estratégia de anúncios alinhada ao seu objetivo comercial. Vá selecionando e preenchendo — suas respostas ficam salvas nesta página enquanto você trabalha nelas.</p>
+    <div class="hero-rule"></div>
+  </div>
+</div>
+
+<div class="stickytop">
+  <div class="progress-row">
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-label" id="progressLabel">0 de 0 respondidas</div>
+  </div>
+  <nav class="sectionnav" id="sectionNav"></nav>
+</div>
+
+<main class="wrap" id="formRoot"></main>
+
+<div class="actionbar">
+  <div class="actionbar-inner">
+    <span class="actionbar-text">As respostas ficam só neste navegador, em nenhum servidor.</span>
+    <div class="actionbar-btns">
+      <button class="btn btn-ghost" id="clearBtn" type="button">Limpar formulário</button>
+      <button class="btn btn-primary" id="emailBtn" type="button">Enviar formulário</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">Resumo copiado</div>
+
+<script>
+(function(){
+
+  var SECTIONS = [
+    { id:'s1', number:1, title:'Sobre o seu serviço', questions:[
+      { id:'q1', n:1, type:'checkbox', text:'Qual serviço você deseja divulgar através dos anúncios?', other:true, options:[
+        'Criação de Perfil da Empresa no Google','Otimização do Google Meu Negócio','Gestão do Google Meu Negócio',
+        'Posicionamento local no Google','Consultoria de Google Meu Negócio','Pacote completo'] },
+      { id:'q2', n:2, type:'textarea', text:'Explique brevemente o que você entrega nesse serviço.' },
+      { id:'q3', n:3, type:'textarea', text:'Qual problema você resolve para o seu cliente?' },
+      { id:'q4', n:4, type:'textarea', text:'Qual é o principal diferencial do seu serviço?' },
+      { id:'q5', n:5, type:'radio', text:'Você possui cases, resultados, depoimentos ou antes/depois de clientes?', options:['Sim','Não'],
+        children:[
+          { id:'q5_detail', type:'textarea', text:'Descreva (ou deixe uma nota para enviar os materiais depois).', showIf:{val:'Sim'} }
+        ] }
+    ]},
+    { id:'s2', number:2, title:'Sobre o cliente que queremos captar', questions:[
+      { id:'q6', n:6, type:'checkbox', text:'Qual público você deseja alcançar prioritariamente?', other:true, options:[
+        'Donas de clínicas de estética','Esteticistas autônomas','Donas de salões de beleza',
+        'Clínicas de procedimentos estéticos','Profissionais de beleza','Profissionais de saúde estética'] },
+      { id:'q7', n:7, type:'radio', text:'Você deseja trabalhar exclusivamente com o nicho de estética ou também com outros segmentos?', options:[
+        'Exclusivamente estética','Estética como principal nicho, mas aceito outros segmentos','Quero testar outros nichos futuramente'] },
+      { id:'q8a', n:8, type:'text', text:'Quais cidades você deseja atender?', placeholder:'Ex.: Campo Grande, Dourados…' },
+      { id:'q8b', type:'text', bare:true, text:'Em qual estado?', placeholder:'Ex.: Mato Grosso do Sul' },
+      { id:'q8c', type:'radio', bare:true, text:'Tipo de atendimento', options:['Atendimento local','Atendimento online','Ambos'] },
+      { id:'q9', n:9, type:'textarea', text:'Existe alguma cidade ou região que NÃO deseja atender?' }
+    ]},
+    { id:'s3', number:3, title:'Objetivo dos anúncios', questions:[
+      { id:'q10', n:10, type:'checkbox', text:'Qual é o principal resultado que você espera obter com o tráfego pago?', other:true, options:[
+        'Gerar leads','Receber mensagens no WhatsApp','Receber pedidos de orçamento','Agendar reuniões',
+        'Agendar diagnósticos/análises do Google Meu Negócio','Conseguir novos clientes','Aumentar a visibilidade do seu serviço'] },
+      { id:'q11', n:11, type:'textarea', text:'Qual seria o resultado ideal para você nos primeiros 30 dias?', example:'Ex.: "Quero gerar 30 contatos e fechar pelo menos 5 clientes."' },
+      { id:'q12', n:12, type:'text', text:'Quantos novos clientes você gostaria de conquistar por mês através dos anúncios?', placeholder:'0', suffix:'clientes/mês', inputmode:'numeric' },
+      { id:'q13', n:13, type:'text', text:'Qual valor médio você ganha por cliente fechado?', prefix:'R$', placeholder:'0,00', inputmode:'decimal',
+        note:'Essa pergunta é importante: depois você consegue avaliar se o custo de aquisição dos clientes está fazendo sentido.' }
+    ]},
+    { id:'s4', number:4, title:'A oferta que vamos anunciar', questions:[
+      { id:'q14', n:14, type:'checkbox', text:'Qual oferta será apresentada nos anúncios?', other:true, options:[
+        'Avaliação gratuita do Google Meu Negócio','Diagnóstico gratuito','Análise do perfil','Orçamento','Consultoria','Pacote promocional'] },
+      { id:'q15', n:15, type:'textarea', text:'Existe alguma condição especial para novos clientes?' },
+      { id:'q16', n:16, type:'text', text:'Qual é o preço do serviço/pacote que queremos vender?', prefix:'R$', placeholder:'0,00', inputmode:'decimal' },
+      { id:'q17', n:17, type:'textarea', text:'O que está incluso nesse serviço?' },
+      { id:'q18', n:18, type:'textarea', text:'Existe alguma garantia, bônus ou diferencial que podemos utilizar na comunicação?' }
+    ]},
+    { id:'s5', number:5, title:'Como o lead vai chegar', questions:[
+      { id:'q19', n:19, type:'checkbox', text:'Para onde você deseja direcionar as pessoas que clicarem no anúncio?', other:true, options:[
+        'WhatsApp','Instagram','Formulário','Página de vendas'] },
+      { id:'q20', n:20, type:'text', text:'Quem será responsável por responder os leads?', placeholder:'Nome ou função' },
+      { id:'q21', n:21, type:'radio', text:'Em quanto tempo você normalmente consegue responder uma nova mensagem?', options:[
+        'Até 5 minutos','Até 15 minutos','Até 30 minutos','Até 1 hora','Mais de 1 hora'] },
+      { id:'q22', n:22, type:'radio', text:'Você já possui um roteiro de atendimento para transformar o lead em cliente?', options:['Sim','Não'] }
+    ]},
+    { id:'s6', number:6, title:'Estrutura para os anúncios', questions:[
+      { id:'q23', n:23, type:'radio', text:'Você possui Instagram profissional ativo?', options:['Sim','Não'],
+        children:[
+          { id:'q23_handle', type:'text', text:'Qual o @ do seu Instagram?', placeholder:'@seuusuario', showIf:{val:'Sim'} }
+        ]},
+      { id:'q24', n:24, type:'radio', text:'Você possui WhatsApp Business?', options:['Sim','Não'] },
+      { id:'q25', n:25, type:'checkbox', text:'Você possui materiais que podemos utilizar nos anúncios?', options:[
+        'Fotos','Vídeos','Depoimentos','Prints de resultados','Cases','Artes','Nenhum atualmente'] },
+      { id:'q26', n:26, type:'radio', text:'Você autoriza a utilização desses materiais na criação dos anúncios?', options:['Sim','Não'] }
+    ]},
+    { id:'s7', number:7, title:'Investimento em tráfego', questions:[
+      { id:'q27', n:27, type:'text', text:'Qual valor você pretende investir mensalmente em anúncios?', prefix:'R$', placeholder:'0,00', inputmode:'decimal',
+        note:'Esse valor corresponde somente à verba destinada aos anúncios. A gestão de tráfego é tratada separadamente.' },
+      { id:'q28', n:28, type:'radio', text:'Você pretende começar com um período de teste?', other:true, options:['7 dias','15 dias','30 dias'] }
+    ]},
+    { id:'s8', number:8, title:'Experiência anterior', questions:[
+      { id:'q29', n:29, type:'radio', text:'Você já investiu em anúncios anteriormente?', options:['Sim','Não'] },
+      { id:'q30', n:30, type:'checkbox', text:'Se sim, onde anunciou?', other:true, options:['Instagram','Facebook','Google'] },
+      { id:'q31', n:31, type:'textarea', text:'Como foram os resultados?' },
+      { id:'q32', n:32, type:'textarea', text:'Já teve alguma experiência ruim com tráfego pago? Se sim, o que aconteceu?' }
+    ]},
+    { id:'s9', number:9, title:'Posicionamento da campanha', questions:[
+      { id:'q33', n:33, type:'checkbox', text:'Como você gostaria que seu serviço fosse percebido pelo público?', other:true, options:[
+        'Profissional','Especialista','Premium','Acessível','Consultivo','Resultado'] },
+      { id:'q34', n:34, type:'textarea', text:'Qual mensagem você gostaria que uma dona de clínica de estética entendesse ao ver seu anúncio?' },
+      { id:'q35', n:35, type:'textarea', text:'Na sua opinião, por que uma profissional de estética deveria contratar você para cuidar do Google Meu Negócio?' }
+    ]},
+    { id:'s10', number:10, title:'Pergunta principal', questions:[
+      { id:'q36', n:36, type:'textarea', text:'Se uma dona de clínica de estética entrar em contato pelo anúncio, qual é a principal transformação que você quer oferecer para ela?',
+        example:'Ex.: "Quero fazer com que a clínica seja encontrada por mais pessoas da região que procuram pelos serviços que ela oferece."' }
+    ]},
+    { id:'s11', number:11, title:'Alinhamento com a VDB Tráfego', questions:[
+      { id:'q37', n:37, type:'textarea', text:'Existe alguma informação, público, região, serviço ou abordagem que você NÃO quer utilizar nos anúncios?' },
+      { id:'q38', n:38, type:'textarea', text:'Existe algum concorrente ou perfil que você considera uma referência?' },
+      { id:'q39', n:39, type:'textarea', text:'Existe alguma meta específica que você gostaria que eu acompanhasse durante a gestão?' },
+      { id:'q40', n:40, type:'textarea', text:'Existe mais alguma informação que você considera importante para eu entender sua estratégia?' }
+    ]},
+    { id:'s12', number:12, title:'Avaliação do formulário', questions:[
+      { id:'q41', n:41, type:'radio', text:'Como você avalia a clareza das perguntas deste formulário?', options:['1 — Confuso','2','3','4','5 — Muito claro'] },
+      { id:'q42', n:42, type:'radio', text:'Como você avalia a facilidade de preenchimento?', options:['1 — Difícil','2','3','4','5 — Muito fácil'] },
+      { id:'q43', n:43, type:'radio', text:'O tempo necessário para preencher foi adequado?', options:['Muito longo','Adequado','Muito curto'] },
+      { id:'q44', n:44, type:'textarea', text:'Tem alguma sugestão de melhoria para este formulário?' }
+    ]}
+  ];
+
+  var root = document.getElementById('formRoot');
+  var nav = document.getElementById('sectionNav');
+  var uid = 0;
+
+  function el(tag, cls, html){
+    var e = document.createElement(tag);
+    if(cls) e.className = cls;
+    if(html !== undefined) e.innerHTML = html;
+    return e;
+  }
+
+  function renderChip(q, opt, isOther){
+    var label = el('label','chip');
+    var input = document.createElement('input');
+    input.type = (q.type === 'checkbox') ? 'checkbox' : 'radio';
+    input.name = q.id;
+    input.value = isOther ? 'Outro' : opt;
+    input.setAttribute('data-qid', q.id);
+    label.appendChild(input);
+    label.appendChild(document.createTextNode(isOther ? 'Outro' : opt));
+    if(isOther){
+      var oi = document.createElement('input');
+      oi.type = 'text';
+      oi.className = 'other-input';
+      oi.placeholder = 'Qual?';
+      oi.setAttribute('data-other-for', q.id);
+      label.appendChild(oi);
+      oi.addEventListener('click', function(ev){ ev.stopPropagation(); });
+      oi.addEventListener('input', function(){ syncProgress(); });
+    }
+    return label;
+  }
+
+  function renderQuestionBody(q){
+    var body = el('div','q-body');
+    if(q.type === 'checkbox' || q.type === 'radio'){
+      var row = el('div','chip-row');
+      row.setAttribute('data-group', q.id);
+      q.options.forEach(function(opt){ row.appendChild(renderChip(q, opt, false)); });
+      if(q.other){ row.appendChild(renderChip(q, null, true)); }
+      body.appendChild(row);
+    } else if(q.type === 'textarea'){
+      var ta = document.createElement('textarea');
+      ta.setAttribute('data-qid', q.id);
+      ta.placeholder = q.placeholder || 'Sua resposta…';
+      body.appendChild(ta);
+    } else if(q.type === 'text'){
+      var wrap = el('div','field-text');
+      if(q.prefix) wrap.appendChild(el('span','field-affix', q.prefix));
+      var input = document.createElement('input');
+      input.type = 'text';
+      if(q.inputmode) input.inputMode = q.inputmode;
+      input.placeholder = q.placeholder || '';
+      input.setAttribute('data-qid', q.id);
+      wrap.appendChild(input);
+      if(q.suffix) wrap.appendChild(el('span','field-suffix', q.suffix));
+      body.appendChild(wrap);
+    }
+    return body;
+  }
+
+  function renderQuestion(q, parentGroupId){
+    var w = el('div','q');
+    w.setAttribute('data-question', q.id);
+    w.setAttribute('data-qtype', q.type);
+
+    if(!q.bare){
+      var lab = el('div','q-label');
+      if(q.n) lab.appendChild(el('span','qn', String(q.n)));
+      lab.appendChild(document.createTextNode(q.text));
+      w.appendChild(lab);
+    } else {
+      var lab2 = el('div','q-label');
+      lab2.style.fontWeight = '400';
+      lab2.style.color = 'var(--ink-soft)';
+      lab2.style.fontSize = '0.88rem';
+      lab2.appendChild(el('span','qn',''));
+      lab2.appendChild(document.createTextNode(q.text));
+      w.appendChild(lab2);
+    }
+
+    w.appendChild(renderQuestionBody(q));
+
+    if(q.example){ w.appendChild(el('p','q-example', q.example)); }
+    if(q.note){ w.appendChild(el('p','q-note', q.note)); }
+
+    if(q.children){
+      q.children.forEach(function(child){
+        var cw = el('div','q-child');
+        cw.hidden = true;
+        cw.setAttribute('data-showif-parent', q.id);
+        cw.setAttribute('data-showif-value', child.showIf.val);
+        var inner = renderQuestion(child, q.id);
+        cw.appendChild(inner);
+        w.appendChild(cw);
+      });
+    }
+
+    return w;
+  }
+
+  SECTIONS.forEach(function(sec){
+    var s = el('section','qsec');
+    s.id = sec.id;
+    var head = el('div','qsec-head');
+    head.appendChild(el('div','qsec-num', 'Seção ' + sec.number));
+    var h2 = document.createElement('h2');
+    h2.textContent = sec.title;
+    head.appendChild(h2);
+    s.appendChild(head);
+
+    sec.questions.forEach(function(q){ s.appendChild(renderQuestion(q)); });
+    root.appendChild(s);
+
+    var navlink = document.createElement('a');
+    navlink.href = '#' + sec.id;
+    navlink.textContent = sec.number + '. ' + sec.title;
+    navlink.id = 'nav-' + sec.id;
+    nav.appendChild(navlink);
+  });
+
+  // ---- conditional visibility ----
+  function updateConditionals(){
+    document.querySelectorAll('[data-showif-parent]').forEach(function(node){
+      var pid = node.getAttribute('data-showif-parent');
+      var wantVal = node.getAttribute('data-showif-value');
+      var parentEl = document.querySelector('[data-question="'+pid+'"]');
+      var match = false;
+      if(parentEl){
+        var checked = parentEl.querySelector(':scope > .q-body input:checked, :scope > .q-body [data-group="'+pid+'"] input:checked');
+        if(checked && checked.value === wantVal) match = true;
+      }
+      node.hidden = !match;
+    });
+  }
+
+  // ---- chip selected-state sync ----
+  function syncChipGroup(groupId){
+    document.querySelectorAll('[data-group="'+groupId+'"] .chip').forEach(function(chip){
+      var input = chip.querySelector('input[type=checkbox], input[type=radio]');
+      var isSel = input.checked;
+      chip.classList.toggle('selected', isSel);
+      var other = chip.querySelector('.other-input');
+      if(other){ other.classList.toggle('show', isSel); if(!isSel) other.value=''; }
+    });
+  }
+
+  // ---- progress ----
+  var progressFill = document.getElementById('progressFill');
+  var progressLabel = document.getElementById('progressLabel');
+
+  function isAnswered(unit){
+    var el = unit;
+    var type = el.getAttribute('data-qtype');
+    if(type === 'checkbox' || type === 'radio'){
+      return !!el.querySelector(':scope > .q-body input:checked');
+    }
+    if(type === 'textarea'){
+      var ta = el.querySelector(':scope > .q-body textarea');
+      return !!(ta && ta.value.trim().length);
+    }
+    if(type === 'text'){
+      var inp = el.querySelector(':scope > .q-body input[type=text]');
+      return !!(inp && inp.value.trim().length);
+    }
+    return false;
+  }
+
+  function syncProgress(){
+    var units = Array.prototype.slice.call(document.querySelectorAll('[data-question]'));
+    var visible = units.filter(function(u){ return u.offsetParent !== null; });
+    var answered = visible.filter(isAnswered);
+    var total = visible.length;
+    var pct = total ? Math.round(answered.length / total * 100) : 0;
+    progressFill.style.width = pct + '%';
+    progressLabel.textContent = answered.length + ' de ' + total + ' respondidas';
+
+    SECTIONS.forEach(function(sec){
+      var secEl = document.getElementById(sec.id);
+      var qUnits = Array.prototype.slice.call(secEl.querySelectorAll('[data-question]'))
+        .filter(function(u){ return u.offsetParent !== null; });
+      var allDone = qUnits.length > 0 && qUnits.every(isAnswered);
+      var navlink = document.getElementById('nav-' + sec.id);
+      if(navlink) navlink.classList.toggle('done', allDone);
+    });
+  }
+
+  root.addEventListener('change', function(e){
+    var group = e.target.closest('[data-group]');
+    if(group) syncChipGroup(group.getAttribute('data-group'));
+    updateConditionals();
+    syncProgress();
+  });
+  root.addEventListener('input', function(e){
+    if(e.target.matches('textarea, input[type=text]')) syncProgress();
+  });
+
+  updateConditionals();
+  syncProgress();
+
+  // ---- summary generation ----
+  function optionValue(el, qtype){
+    if(qtype === 'checkbox'){
+      var vals = [];
+      el.querySelectorAll(':scope > .q-body input:checked').forEach(function(inp){
+        if(inp.value === 'Outro'){
+          var oi = el.querySelector('.other-input[data-other-for="'+inp.getAttribute('data-qid')+'"]');
+          vals.push(oi && oi.value.trim() ? 'Outro — ' + oi.value.trim() : 'Outro');
+        } else { vals.push(inp.value); }
+      });
+      return vals.join(', ');
+    }
+    if(qtype === 'radio'){
+      var checked = el.querySelector(':scope > .q-body input:checked');
+      if(!checked) return '';
+      if(checked.value === 'Outro'){
+        var oi2 = el.querySelector('.other-input[data-other-for="'+checked.getAttribute('data-qid')+'"]');
+        return oi2 && oi2.value.trim() ? 'Outro — ' + oi2.value.trim() : 'Outro';
+      }
+      return checked.value;
+    }
+    if(qtype === 'textarea'){
+      var ta = el.querySelector(':scope > .q-body textarea');
+      return ta ? ta.value.trim() : '';
+    }
+    if(qtype === 'text'){
+      var inp2 = el.querySelector(':scope > .q-body input[type=text]');
+      return inp2 ? inp2.value.trim() : '';
+    }
+    return '';
+  }
+
+  function buildSummary(){
+    var lines = [];
+    lines.push('BRIEFING DE TRÁFEGO PAGO — VDB TRÁFEGO');
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2,'0');
+    var mm = String(today.getMonth()+1).padStart(2,'0');
+    lines.push('Gerado em ' + dd + '/' + mm + '/' + today.getFullYear());
+    lines.push('');
+
+    SECTIONS.forEach(function(sec){
+      lines.push('SEÇÃO ' + sec.number + ' — ' + sec.title.toUpperCase());
+      var secEl = document.getElementById(sec.id);
+      var qUnits = secEl.querySelectorAll(':scope > .q');
+      qUnits.forEach(function(qEl){
+        walkQuestion(qEl, lines);
+      });
+      lines.push('');
+    });
+
+    return lines.join('\n');
+  }
+
+  function walkQuestion(qEl, lines){
+    if(qEl.offsetParent === null) return;
+    var qtype = qEl.getAttribute('data-qtype');
+    var labelNode = qEl.querySelector(':scope > .q-label');
+    var text = labelNode ? labelNode.textContent.trim() : '';
+    var value = optionValue(qEl, qtype);
+    if(text){
+      lines.push(text);
+      lines.push('   → ' + (value ? value : '(não respondido)'));
+    }
+    qEl.querySelectorAll(':scope > .q-child').forEach(function(childWrap){
+      var childQ = childWrap.querySelector(':scope > .q');
+      if(childQ) walkQuestion(childQ, lines);
+    });
+  }
+
+  // ---- actions ----
+  var toast = document.getElementById('toast');
+  function showToast(msg){
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(function(){ toast.classList.remove('show'); }, 1800);
+  }
+
+  var EVALUATION_EMAIL = 'bianunes1804@gmail.com';
+
+  document.getElementById('emailBtn').addEventListener('click', function(){
+    var text = buildSummary();
+    var subject = 'Briefing de tráfego pago — VDB Tráfego';
+    var gmailUrl = 'https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent(EVALUATION_EMAIL) +
+      '&su=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(text);
+    window.open(gmailUrl, '_blank');
+    showToast('Abrindo Gmail para envio');
+  });
+
+  document.getElementById('clearBtn').addEventListener('click', function(){
+    if(!confirm('Limpar todas as respostas preenchidas neste formulário?')) return;
+    root.querySelectorAll('input[type=text]').forEach(function(i){ i.value=''; });
+    root.querySelectorAll('textarea').forEach(function(t){ t.value=''; });
+    root.querySelectorAll('input[type=checkbox], input[type=radio]').forEach(function(i){ i.checked=false; });
+    root.querySelectorAll('.other-input').forEach(function(i){ i.value=''; i.classList.remove('show'); });
+    root.querySelectorAll('.chip.selected').forEach(function(c){ c.classList.remove('selected'); });
+    updateConditionals();
+    syncProgress();
+    showToast('Formulário limpo');
+  });
+
+})();
+</script>
+</body>
+</html>
