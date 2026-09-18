@@ -315,92 +315,61 @@
       { id:'q1', n:1, type:'checkbox', text:'Qual serviço você deseja divulgar através dos anúncios?', other:true, options:[
         'Criação de Perfil da Empresa no Google','Otimização do Google Meu Negócio','Gestão do Google Meu Negócio',
         'Posicionamento local no Google','Consultoria de Google Meu Negócio','Pacote completo'] },
-      { id:'q2', n:2, type:'textarea', text:'Explique brevemente o que você entrega nesse serviço.' },
-      { id:'q3', n:3, type:'textarea', text:'Qual problema você resolve para o seu cliente?' },
-      { id:'q4', n:4, type:'textarea', text:'Qual é o principal diferencial do seu serviço?' },
-      { id:'q5', n:5, type:'radio', text:'Você possui cases, resultados, depoimentos ou antes/depois de clientes?', options:['Sim','Não'],
+      { id:'q2', n:2, type:'textarea', text:'Explique brevemente o que você entrega, qual problema resolve para o cliente e qual é o principal diferencial do seu serviço.' },
+      { id:'q3', n:3, type:'radio', text:'Você possui cases, resultados, depoimentos ou antes/depois de clientes?', options:['Sim','Não'],
         children:[
-          { id:'q5_detail', type:'textarea', text:'Descreva (ou deixe uma nota para enviar os materiais depois).', showIf:{val:'Sim'} }
+          { id:'q3_detail', type:'textarea', text:'Descreva (ou deixe uma nota para enviar os materiais depois).', showIf:{val:'Sim'} }
         ] }
     ]},
     { id:'s2', number:2, title:'Sobre o cliente que queremos captar', questions:[
-      { id:'q6', n:6, type:'checkbox', text:'Qual público você deseja alcançar prioritariamente?', other:true, options:[
+      { id:'q4', n:4, type:'checkbox', text:'Qual público você deseja alcançar prioritariamente?', other:true, options:[
         'Donas de clínicas de estética','Esteticistas autônomas','Donas de salões de beleza',
         'Clínicas de procedimentos estéticos','Profissionais de beleza','Profissionais de saúde estética'] },
-      { id:'q7', n:7, type:'radio', text:'Você deseja trabalhar exclusivamente com o nicho de estética ou também com outros segmentos?', options:[
-        'Exclusivamente estética','Estética como principal nicho, mas aceito outros segmentos','Quero testar outros nichos futuramente'] },
-      { id:'q8a', n:8, type:'text', text:'Quais cidades você deseja atender?', placeholder:'Ex.: Campo Grande, Dourados…' },
-      { id:'q8b', type:'text', bare:true, text:'Em qual estado?', placeholder:'Ex.: Mato Grosso do Sul' },
-      { id:'q8c', type:'radio', bare:true, text:'Tipo de atendimento', options:['Atendimento local','Atendimento online','Ambos'] },
-      { id:'q9', n:9, type:'textarea', text:'Existe alguma cidade ou região que NÃO deseja atender?' }
+      { id:'q5', n:5, type:'textarea', text:'Quais cidades e estado você deseja atender, qual o tipo de atendimento (local, online ou ambos) e existe alguma região que NÃO deseja atender?', placeholder:'Ex.: Campo Grande e Dourados, Mato Grosso do Sul, atendimento local e online. Não atendo…' }
     ]},
     { id:'s3', number:3, title:'Objetivo dos anúncios', questions:[
-      { id:'q10', n:10, type:'checkbox', text:'Qual é o principal resultado que você espera obter com o tráfego pago?', other:true, options:[
+      { id:'q6', n:6, type:'checkbox', text:'Qual é o principal resultado que você espera obter com o tráfego pago?', other:true, options:[
         'Gerar leads','Receber mensagens no WhatsApp','Receber pedidos de orçamento','Agendar reuniões',
         'Agendar diagnósticos/análises do Google Meu Negócio','Conseguir novos clientes','Aumentar a visibilidade do seu serviço'] },
-      { id:'q11', n:11, type:'textarea', text:'Qual seria o resultado ideal para você nos primeiros 30 dias?', example:'Ex.: "Quero gerar 30 contatos e fechar pelo menos 5 clientes."' },
-      { id:'q12', n:12, type:'text', text:'Quantos novos clientes você gostaria de conquistar por mês através dos anúncios?', placeholder:'0', suffix:'clientes/mês', inputmode:'numeric' },
-      { id:'q13', n:13, type:'text', text:'Qual valor médio você ganha por cliente fechado?', prefix:'R$', placeholder:'0,00', inputmode:'decimal',
+      { id:'q7', n:7, type:'text', text:'Quantos novos clientes você gostaria de conquistar por mês através dos anúncios?', placeholder:'0', suffix:'clientes/mês', inputmode:'numeric' },
+      { id:'q8', n:8, type:'text', text:'Qual valor médio você ganha por cliente fechado?', prefix:'R$', placeholder:'0,00', inputmode:'decimal',
         note:'Essa pergunta é importante: depois você consegue avaliar se o custo de aquisição dos clientes está fazendo sentido.' }
     ]},
     { id:'s4', number:4, title:'A oferta que vamos anunciar', questions:[
-      { id:'q14', n:14, type:'checkbox', text:'Qual oferta será apresentada nos anúncios?', other:true, options:[
+      { id:'q9', n:9, type:'checkbox', text:'Qual oferta será apresentada nos anúncios?', other:true, options:[
         'Avaliação gratuita do Google Meu Negócio','Diagnóstico gratuito','Análise do perfil','Orçamento','Consultoria','Pacote promocional'] },
-      { id:'q15', n:15, type:'textarea', text:'Existe alguma condição especial para novos clientes?' },
-      { id:'q16', n:16, type:'text', text:'Qual é o preço do serviço/pacote que queremos vender?', prefix:'R$', placeholder:'0,00', inputmode:'decimal' },
-      { id:'q17', n:17, type:'textarea', text:'O que está incluso nesse serviço?' },
-      { id:'q18', n:18, type:'textarea', text:'Existe alguma garantia, bônus ou diferencial que podemos utilizar na comunicação?' }
+      { id:'q10', n:10, type:'text', text:'Qual é o preço do serviço/pacote que queremos vender?', prefix:'R$', placeholder:'0,00', inputmode:'decimal' },
+      { id:'q11', n:11, type:'textarea', text:'O que está incluso nesse serviço, e existe alguma condição especial, garantia ou bônus que podemos utilizar na comunicação?' }
     ]},
     { id:'s5', number:5, title:'Como o lead vai chegar', questions:[
-      { id:'q19', n:19, type:'checkbox', text:'Para onde você deseja direcionar as pessoas que clicarem no anúncio?', other:true, options:[
+      { id:'q12', n:12, type:'checkbox', text:'Para onde você deseja direcionar as pessoas que clicarem no anúncio?', other:true, options:[
         'WhatsApp','Instagram','Formulário','Página de vendas'] },
-      { id:'q20', n:20, type:'text', text:'Quem será responsável por responder os leads?', placeholder:'Nome ou função' },
-      { id:'q21', n:21, type:'radio', text:'Em quanto tempo você normalmente consegue responder uma nova mensagem?', options:[
-        'Até 5 minutos','Até 15 minutos','Até 30 minutos','Até 1 hora','Mais de 1 hora'] },
-      { id:'q22', n:22, type:'radio', text:'Você já possui um roteiro de atendimento para transformar o lead em cliente?', options:['Sim','Não'] }
+      { id:'q13', n:13, type:'radio', text:'Em quanto tempo você normalmente consegue responder uma nova mensagem?', options:[
+        'Até 5 minutos','Até 15 minutos','Até 30 minutos','Até 1 hora','Mais de 1 hora'] }
     ]},
     { id:'s6', number:6, title:'Estrutura para os anúncios', questions:[
-      { id:'q23', n:23, type:'radio', text:'Você possui Instagram profissional ativo?', options:['Sim','Não'],
+      { id:'q14', n:14, type:'radio', text:'Você possui Instagram profissional ativo?', options:['Sim','Não'],
         children:[
-          { id:'q23_handle', type:'text', text:'Qual o @ do seu Instagram?', placeholder:'@seuusuario', showIf:{val:'Sim'} }
+          { id:'q14_handle', type:'text', text:'Qual o @ do seu Instagram?', placeholder:'@seuusuario', showIf:{val:'Sim'} }
         ]},
-      { id:'q24', n:24, type:'radio', text:'Você possui WhatsApp Business?', options:['Sim','Não'] },
-      { id:'q25', n:25, type:'checkbox', text:'Você possui materiais que podemos utilizar nos anúncios?', options:[
-        'Fotos','Vídeos','Depoimentos','Prints de resultados','Cases','Artes','Nenhum atualmente'] },
-      { id:'q26', n:26, type:'radio', text:'Você autoriza a utilização desses materiais na criação dos anúncios?', options:['Sim','Não'] }
+      { id:'q15', n:15, type:'checkbox', text:'Você possui materiais (fotos, vídeos, depoimentos etc.) que podemos utilizar nos anúncios?', options:[
+        'Fotos','Vídeos','Depoimentos','Prints de resultados','Cases','Artes','Nenhum atualmente'],
+        note:'Selecionar algum item acima (exceto "Nenhum atualmente") indica que você autoriza o uso desses materiais na criação dos anúncios.' }
     ]},
     { id:'s7', number:7, title:'Investimento em tráfego', questions:[
-      { id:'q27', n:27, type:'text', text:'Qual valor você pretende investir mensalmente em anúncios?', prefix:'R$', placeholder:'0,00', inputmode:'decimal',
-        note:'Esse valor corresponde somente à verba destinada aos anúncios. A gestão de tráfego é tratada separadamente.' },
-      { id:'q28', n:28, type:'radio', text:'Você pretende começar com um período de teste?', other:true, options:['7 dias','15 dias','30 dias'] }
+      { id:'q16', n:16, type:'text', text:'Qual valor você pretende investir mensalmente em anúncios?', prefix:'R$', placeholder:'0,00', inputmode:'decimal',
+        note:'Esse valor corresponde somente à verba destinada aos anúncios. A gestão de tráfego é tratada separadamente.' }
     ]},
     { id:'s8', number:8, title:'Experiência anterior', questions:[
-      { id:'q29', n:29, type:'radio', text:'Você já investiu em anúncios anteriormente?', options:['Sim','Não'] },
-      { id:'q30', n:30, type:'checkbox', text:'Se sim, onde anunciou?', other:true, options:['Instagram','Facebook','Google'] },
-      { id:'q31', n:31, type:'textarea', text:'Como foram os resultados?' },
-      { id:'q32', n:32, type:'textarea', text:'Já teve alguma experiência ruim com tráfego pago? Se sim, o que aconteceu?' }
+      { id:'q17', n:17, type:'textarea', text:'Você já investiu em anúncios antes? Se sim, onde e como foram os resultados (incluindo alguma experiência ruim, se houver)?' }
     ]},
-    { id:'s9', number:9, title:'Posicionamento da campanha', questions:[
-      { id:'q33', n:33, type:'checkbox', text:'Como você gostaria que seu serviço fosse percebido pelo público?', other:true, options:[
-        'Profissional','Especialista','Premium','Acessível','Consultivo','Resultado'] },
-      { id:'q34', n:34, type:'textarea', text:'Qual mensagem você gostaria que uma dona de clínica de estética entendesse ao ver seu anúncio?' },
-      { id:'q35', n:35, type:'textarea', text:'Na sua opinião, por que uma profissional de estética deveria contratar você para cuidar do Google Meu Negócio?' }
-    ]},
-    { id:'s10', number:10, title:'Pergunta principal', questions:[
-      { id:'q36', n:36, type:'textarea', text:'Se uma dona de clínica de estética entrar em contato pelo anúncio, qual é a principal transformação que você quer oferecer para ela?',
+    { id:'s9', number:9, title:'Posicionamento e pergunta principal', questions:[
+      { id:'q18', n:18, type:'textarea', text:'Como você gostaria que seu serviço fosse percebido pelo público, e qual mensagem gostaria que uma dona de clínica de estética entendesse ao ver seu anúncio?' },
+      { id:'q19', n:19, type:'textarea', text:'Se uma dona de clínica de estética entrar em contato pelo anúncio, qual é a principal transformação que você quer oferecer para ela?',
         example:'Ex.: "Quero fazer com que a clínica seja encontrada por mais pessoas da região que procuram pelos serviços que ela oferece."' }
     ]},
-    { id:'s11', number:11, title:'Alinhamento com a VDB Tráfego', questions:[
-      { id:'q37', n:37, type:'textarea', text:'Existe alguma informação, público, região, serviço ou abordagem que você NÃO quer utilizar nos anúncios?' },
-      { id:'q38', n:38, type:'textarea', text:'Existe algum concorrente ou perfil que você considera uma referência?' },
-      { id:'q39', n:39, type:'textarea', text:'Existe alguma meta específica que você gostaria que eu acompanhasse durante a gestão?' },
-      { id:'q40', n:40, type:'textarea', text:'Existe mais alguma informação que você considera importante para eu entender sua estratégia?' }
-    ]},
-    { id:'s12', number:12, title:'Avaliação do formulário', questions:[
-      { id:'q41', n:41, type:'radio', text:'Como você avalia a clareza das perguntas deste formulário?', options:['1 — Confuso','2','3','4','5 — Muito claro'] },
-      { id:'q42', n:42, type:'radio', text:'Como você avalia a facilidade de preenchimento?', options:['1 — Difícil','2','3','4','5 — Muito fácil'] },
-      { id:'q43', n:43, type:'radio', text:'O tempo necessário para preencher foi adequado?', options:['Muito longo','Adequado','Muito curto'] },
-      { id:'q44', n:44, type:'textarea', text:'Tem alguma sugestão de melhoria para este formulário?' }
+    { id:'s10', number:10, title:'Alinhamento com a VDB Tráfego', questions:[
+      { id:'q20', n:20, type:'textarea', text:'Existe alguma informação, público, região ou abordagem que você NÃO quer utilizar nos anúncios? Alguma meta específica ou informação adicional importante para eu entender sua estratégia?' }
     ]}
   ];
 
