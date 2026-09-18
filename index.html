@@ -676,21 +676,51 @@
 
   // ---- actions ----
   var toast = document.getElementById('toast');
-  function showToast(msg){
+  var toastTimer = null;
+  function showToast(msg, duration){
     toast.textContent = msg;
     toast.classList.add('show');
-    setTimeout(function(){ toast.classList.remove('show'); }, 1800);
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ toast.classList.remove('show'); }, duration || 1800);
   }
 
   var EVALUATION_EMAIL = 'bianunes1804@gmail.com';
 
+  function copyToClipboard(text){
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      return navigator.clipboard.writeText(text);
+    }
+    return Promise.reject(new Error('clipboard API unavailable'));
+  }
+
+  function fallbackCopyToClipboard(text){
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    try{ document.execCommand('copy'); }catch(e){}
+    document.body.removeChild(ta);
+  }
+
   document.getElementById('emailBtn').addEventListener('click', function(){
     var text = buildSummary();
     var subject = 'Briefing de tráfego pago — VDB Tráfego';
+    // Only "to" and "subject" go in the URL — putting the full answers in the
+    // body param made the link exceed Gmail's URL length limit and return a 404.
     var gmailUrl = 'https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent(EVALUATION_EMAIL) +
-      '&su=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(text);
+      '&su=' + encodeURIComponent(subject);
+
     window.open(gmailUrl, '_blank');
-    showToast('Abrindo Gmail para envio');
+
+    copyToClipboard(text).then(function(){
+      showToast('Resumo copiado! Cole (Ctrl+V) no corpo do e-mail que abriu no Gmail.', 4000);
+    }, function(){
+      fallbackCopyToClipboard(text);
+      showToast('Resumo copiado! Cole (Ctrl+V) no corpo do e-mail que abriu no Gmail.', 4000);
+    });
   });
 
   document.getElementById('clearBtn').addEventListener('click', function(){
