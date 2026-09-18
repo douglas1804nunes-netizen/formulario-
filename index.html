@@ -674,32 +674,34 @@
     document.body.removeChild(ta);
   }
 
-  // The old mail.google.com/mail/?view=cm... link gets intercepted by the Gmail
-  // Android app as an app link, which opens compose but silently drops the "body"
-  // param, leaving the answers out. A plain "mailto:" link is honored by every
-  // mail app/client (Gmail app included) with subject and body intact, so it's
-  // used instead. It still has a safe length limit, so very long submissions
-  // fall back to clipboard-only and the summary is always copied as a backup.
-  var EMAIL_BODY_LIMIT = 6000;
+  // A "mailto:" link navigates the CURRENT page away (or hands off to the OS/app)
+  // instead of opening in a new tab. That means this page can get replaced or
+  // backgrounded before the clipboard copy / toast below finish running, so the
+  // "paste here" fallback silently never happens — the compose window is just
+  // left empty. Opening the Gmail compose URL in a NEW tab (window.open) keeps
+  // this page alive and in front, so the copy + toast always complete reliably.
+  // Gmail's compose link returns a 404 once the URL gets too long, so only
+  // reasonably-sized answers get embedded directly; longer ones fall back to
+  // clipboard-only, and the summary is always copied as a backup either way.
+  var GMAIL_BODY_URL_LIMIT = 8000;
 
   document.getElementById('emailBtn').addEventListener('click', function(){
     var text = buildSummary();
     var subject = 'Briefing de tráfego pago — VDB Tráfego';
+    var baseUrl = 'https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent(EVALUATION_EMAIL) +
+      '&su=' + encodeURIComponent(subject);
     var encodedBody = encodeURIComponent(text);
-    var fitsInUrl = encodedBody.length <= EMAIL_BODY_LIMIT;
-    var mailtoUrl = 'mailto:' + encodeURIComponent(EVALUATION_EMAIL) +
-      '?subject=' + encodeURIComponent(subject) +
-      (fitsInUrl ? '&body=' + encodedBody : '');
+    var fitsInUrl = encodedBody.length <= GMAIL_BODY_URL_LIMIT;
 
-    window.location.href = mailtoUrl;
+    window.open(fitsInUrl ? (baseUrl + '&body=' + encodedBody) : baseUrl, '_blank');
 
     var isTouch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
     var pasteHint = isTouch
       ? '(toque no corpo do e-mail e cole: toque e segure > Colar)'
       : '(Ctrl+V no corpo do e-mail)';
     var toastMsg = fitsInUrl
-      ? 'Abrindo seu app de e-mail com as respostas preenchidas. Se não aparecerem, cole ' + pasteHint + ' — já copiamos para você.'
-      : 'Respostas muito longas para preencher automaticamente. Resumo copiado! Cole ' + pasteHint + ' no corpo do e-mail que abriu.';
+      ? 'Abrindo Gmail com as respostas preenchidas. Se não aparecerem, cole ' + pasteHint + ' — já copiamos para você.'
+      : 'Respostas muito longas para o link do Gmail. Resumo copiado! Cole ' + pasteHint + '.';
 
     copyToClipboard(text).then(function(){
       showToast(toastMsg, 5000);
